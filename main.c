@@ -72,11 +72,11 @@ int add (char * key, char * info) {
 	now->key = calloc(20, sizeof(char));
 	now->info = calloc(20, sizeof(char));
 	strcpy(now->info, info);
-	strncpy(now->key,key,strlen(key));
+	strncpy(now->key, key, strlen(key));
 	return 0;
 }
 
-int rebuild(Node * tree) {
+int rebuild (Node * tree) {
     if (!tree) {
         return 1;
     }
@@ -98,7 +98,7 @@ int rebuild(Node * tree) {
 	return 0;
 }
 
-int rm (char * key) {
+int delete (char * key) {
     Node * now = root;
 	Node * last = NULL;
     
@@ -147,13 +147,13 @@ int rm (char * key) {
 	return 0;
 }
 
-int find_r (Node * tree, char * key) {
+int find_N (Node * tree, char * key) {
     if (!root) {
 		return 1;
     }
     
     if (tree->left) {
-		find_r(tree->left, key);
+		find_N(tree->left, key);
     }
     
     if ((tree->info) && (strncmp(tree->key, key, strlen(key)) == 0)) {
@@ -161,13 +161,13 @@ int find_r (Node * tree, char * key) {
     }
     
     if (tree->right) {
-		find_r(tree->right, key);
+		find_N(tree->right, key);
     }
     
 	return 0;
 }
 
-int find(char * key, int b) {
+int find (char * key, int b) {
 	Node * now = root;
     
     if (!now) {
@@ -458,6 +458,7 @@ int D_Timing()
         
         m = 0;
         first = clock();
+        
         for (i = 0; i < 10000; ++i) {
             char * s1 = calloc(200, sizeof(char));
             sprintf(s1,"%d", key[i]);
@@ -535,7 +536,7 @@ int action()
                 strncpy(key,input,strlen(input));
             }
         
-            ret = rm(key);
+            ret = delete(key);
         
             if (ret == 1) {
                 printf("[-] Error! Not created!\n");
@@ -581,7 +582,7 @@ int action()
                 strncpy(key,input,strlen(input));
             }
         
-            find_r(root, key);
+            find_N(root, key);
         
             free(key);
             break;
@@ -625,7 +626,6 @@ int action()
             }
         
             free(input);
-            free(root);
             exit(0);
             break;
     }
